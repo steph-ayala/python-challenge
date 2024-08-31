@@ -1,28 +1,31 @@
-# Just
-# testing
-# this code
-
 
 import os
 import csv 
 
 
-#csvpath = os.path.join('PyBank', 'Resources', 'budget_data.csv') for vscode
-csvpath = os.path.join('Resources', 'budget_data.csv')
+csvpath = os.path.join('PyBank', 'Resources', 'budget_data.csv')
+#csvpath = os.path.join('Resources', 'budget_data.csv')
 
 with open(csvpath) as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
     csv_header = next(csvreader)
     print(f"CSV Header: {csv_header}")
 
+#The total number of months included in the dataset
     csvrows = []    
     for row in csvreader:
         #print(row)
         csvrows.append(row)
 
-#The total number of months included in the dataset
-num_of_months = len(csvrows)
-print(f"Total Months: {num_of_months}")
+with open("Analysis.txt", "w") as file:         
+    num_of_months = len(csvrows)
+    print("Financial Analysis")
+    print("----------------------------")
+    print(f"Total Months: {num_of_months}")
+    file.write("Financial Analysis")
+    file.write("----------------------------")
+    file.write(f"Total Months: {num_of_months}")
+
 
 #The net total amount of "Profit/Losses" over the entire period
 #print(csvrows[0][1])
@@ -31,6 +34,7 @@ for row in csvrows:
     row[1] = int(row[1])
     sum += row[1]
 print(f"Total: ${sum}")
+#file.write(f"Total: ${sum}")
 
 #The changes in "Profit/Losses" over the entire period, and then the average of those changes
 net_change_lst = []
@@ -46,6 +50,8 @@ for i in range(1, len(csvrows)):
 
 average_change = total_net_change / (len(csvrows) - 1)
 print(f"Average Change: ${round(average_change, 2)}")
+file.write(f"Average Change: ${round(average_change, 2)}")
+
 
 #The greatest increase in profits (date and amount) over the entire period
 greatest_increase = 0
@@ -61,7 +67,7 @@ for i in range(1, len(csvrows)):
         greatest_increase_date = csvrows[i][0]
 
 print(f"Greatest Increase in Profits: {greatest_increase_date} (${greatest_increase})")
-
+file.write(f"Greatest Increase in Profits: {greatest_increase_date} (${greatest_increase})")
 
 #The greatest decrease in profits (date and amount) over the entire period
 greatest_decrease = 0
@@ -77,3 +83,4 @@ for i in range(1, len(csvrows)):
         greatest_decrease_date = csvrows[i][0]
 
 print(f"Greatest Decrease in Profits: {greatest_decrease_date} (${greatest_decrease})")
+file.write(f"Greatest Decrease in Profits: {greatest_decrease_date} (${greatest_decrease})")
